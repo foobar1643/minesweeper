@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Minesweeper Game</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/EventDispatcher.js"></script>
+        <script src="js/Popup.js"></script>
+        <script src="js/MinesweeperGame.js"></script>
+        <script>
+            var model = new Game(9, 10, 10); // game field size on x axis, game field size on y axis, total bombs on the field
+            window.onload = function() {
+                var view = new DOMview(model, document.getElementById("game-table"));
+                var MController = new MouseController(model, view);
+                view.createField();
+                MController.addEventListeners();
+            };
+        </script>
+    </head>
+    <body>
+        <div id="game-controls">
+            <!-- <button id="custom-game-button">Custom game</button> !-->
+            <button id="restart-button" onClick="model.resetGame();">Restart</button>
+            <button id="concede-button" onClick="model.changeGameState(Game.GAME_LOST);">Concede</button>
+        </div>
+        <table id="game-table" class="minesweeper">
+            <thead>
+                <tr>
+                    <td id="mines-count" title="Total bombs on the field, decreases when player places a flag" colspan="2">15</td>
+                </tr>
+            </thead>
+        </table>
+        <script type="text/x-template" id="template-popup">
+            <div class="popup-content">
+                <div class="popup-title-container">
+                    <h3 class="popup-title">{{popupHeadline}}</h3>
+                </div>
+                <div class="popup-message-container">
+                    <span class="popup-message">{{popupText}}</span>
+                </div>
+                <div class="popup-control">
+                    <button type="button" id="popup-close-button" class="popup-button">Close window</button>
+                </div>
+            </div>
+        </script>
+    </body>
+</body>
